@@ -1,30 +1,32 @@
+%define name	aumix
 %define version 2.8
-%define release %mkrel 16
+%define release %mkrel 17
 
-Name:		aumix
-Summary:	A GTK+/Ncurses audio mixer 
+Name:		%{name}
+Summary:	A GTK+ / Ncurses audio mixer 
 Version:	%{version}
 Release:	%{release}
 License:	GPL
 Group:		Sound
 BuildRequires:	ncurses-devel
 BuildRequires:	gtk+2-devel
-BuildRequires:	autoconf2.1
-BuildRequires:	automake1.4
+BuildRequires:	autoconf
+BuildRequires:	automake
 Source0:	http://www.jpj.net/~trevor/aumix/%{name}-%{version}.tar.bz2
 # mute(1) man page (from debian):
 Source1:	aumix-mute.1.bz2
-Patch0:		aumix-2.7-devfs-compliant.patch.bz2
-Patch1:		aumix-2.8-utf8_vs_gtk2.patch.bz2
-Patch2:		aumix-2.8-close-dialogs.patch.bz2
-Patch3:		aumix-2.8-nb.patch.bz2
+Patch1:		aumix-2.8-utf8_vs_gtk2.patch
+Patch2:		aumix-2.8-close-dialogs.patch
+Patch3:		aumix-2.8-nb.patch
+# autoconf 2.5 and later support (from debian):
+Patch4:		aumix-2.8-autoconf.patch
 # rawhide patches:
-Patch102:  aumix-fix-cursor-color-on-exit.patch.bz2
-Patch103:  aumix-2.8-fix-changing-level-non-interactively.patch.bz2
-Patch104:  aumix-2.8-bug-115869.patch.bz2
+Patch102:  aumix-fix-cursor-color-on-exit.patch
+Patch103:  aumix-2.8-fix-changing-level-non-interactively.patch
+Patch104:  aumix-2.8-bug-115869.patch
 URL: 		http://www.jpj.net/~trevor/aumix.html
 Requires:	initscripts >= 4.42
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-builddroot
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 This is a program for adjusting audio mixers from the command line or scripts,
@@ -43,29 +45,18 @@ interface .
 
 %prep
 %setup -q
-%patch0 -p1 -b .devfs
 %patch1 -p1 -b .utf8
 %patch2 -p0 -b .dialogs
 %patch3 -p1 -b .nb
+%patch4 -p1 -b .autoconf
 %patch102 -p0
 %patch103 -p1
 %patch104 -p0
 
-# (gc) move "xaumix" to "taumix"
-perl -pi -e 's|xaumix|taumix|g' doc/{*aumix.1,Makefile.am} src/{Makefile.am,xaumix}
-mv doc/xaumix.1 doc/taumix.1
-mv src/xaumix src/taumix
-
-aclocal-1.4
-%if %{mdkversion} >= 200600
-# XXX awful, yes, but no sane way anyway
-perl -pi -e 's/^(AC_PREREQ)\(2\.[^)]+\)/\1(2.13)/' aclocal.m4
-%endif
-automake-1.4 --gnu --include-deps src/Makefile
-touch Makefile.in
-WANT_AUTOCONF_2_1=1 autoconf
-
 %build
+aclocal
+automake --add-missing
+autoconf
 mkdir build-text
 pushd build-text
 CONFIGURE_TOP=.. %configure --with-alsa --without-gtk1 --without-gtk
@@ -86,33 +77,22 @@ rm -rf $RPM_BUILD_ROOT
 install -m755 build-text/src/aumix $RPM_BUILD_ROOT%{_bindir}/aumix-text
 
 # menu entry
-mkdir -p %buildroot/%_menudir
-cat > %buildroot/%_menudir/%name << EOF
-?package(%name): \
-command="%_bindir/%name" \
-needs="X11" \
-icon="sound_section.png" \
-section="Multimedia/Sound" \
-title="Aumix" \
-longtitle="Audio Mixer based on GTK+ and NCurses" xdg="true"
-EOF
+
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-%{name}.desktop << EOF
 [Desktop Entry]
 Encoding=UTF-8
 Name=Aumix
-Comment=Audio Mixer based on GTK+ and NCurses
+Comment=Basic volume controller
 Exec=%{name}
 Icon=sound_section
 Terminal=false
 Type=Application
 StartupNotify=true
-Categories=X-MandrivaLinux-Multimedia-Sound;Audio;Mixer;
+Categories=GTK;Audio;Mixer;
 EOF
 
-
 bzcat %SOURCE1 > $RPM_BUILD_ROOT%_mandir/man1/mute.1
-
 
 %find_lang %name
 
@@ -130,11 +110,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc README TODO NEWS ChangeLog
 %_bindir/aumix
 %_bindir/mute
-%_bindir/taumix
+%_bindir/xaumix
 %_mandir/man1/*
 %_datadir/applications/mandriva-*
 %_datadir/%name
-%_menudir/*
 
 %files text
 %defattr(-,root,root)
