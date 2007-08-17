@@ -14,7 +14,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 Source0:	http://www.jpj.net/~trevor/aumix/%{name}-%{version}.tar.bz2
 # mute(1) man page (from debian):
-Source1:	aumix-mute.1.bz2
+Source1:	aumix-mute.*
 Patch1:		aumix-2.8-utf8_vs_gtk2.patch
 Patch2:		aumix-2.8-close-dialogs.patch
 Patch3:		aumix-2.8-nb.patch
