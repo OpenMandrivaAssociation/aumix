@@ -26,6 +26,7 @@ Patch103:  aumix-2.8-fix-changing-level-non-interactively.patch
 Patch104:  aumix-2.8-bug-115869.patch
 URL: 		http://www.jpj.net/~trevor/aumix.html
 Requires:	initscripts >= 4.42
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 This is a program for adjusting audio mixers from the command line or scripts,
