@@ -1,6 +1,6 @@
 %define name	aumix
 %define version 2.8
-%define release %mkrel 18
+%define release %mkrel 19
 
 Name:		%{name}
 Summary:	A GTK+ / Ncurses audio mixer 
@@ -20,6 +20,7 @@ Patch2:		aumix-2.8-close-dialogs.patch
 Patch3:		aumix-2.8-nb.patch
 # autoconf 2.5 and later support (from debian):
 Patch4:		aumix-2.8-autoconf.patch
+Patch5:		aumix-2.8-format_not_a_string_literal_and_no_format_arguments.diff
 # rawhide patches:
 Patch102:  aumix-fix-cursor-color-on-exit.patch
 Patch103:  aumix-2.8-fix-changing-level-non-interactively.patch
@@ -49,6 +50,7 @@ interface .
 %patch2 -p0 -b .dialogs
 %patch3 -p1 -b .nb
 %patch4 -p1 -b .autoconf
+%patch5 -p0
 %patch102 -p0
 %patch103 -p1
 %patch104 -p0
