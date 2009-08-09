@@ -1,6 +1,6 @@
 %define name	aumix
 %define version 2.8
-%define release %mkrel 19
+%define release %mkrel 20
 
 Name:		%{name}
 Summary:	A GTK+ / Ncurses audio mixer 
