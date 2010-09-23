@@ -1,6 +1,6 @@
 %define name	aumix
-%define version 2.8
-%define release %mkrel 21
+%define version 2.9.1
+%define release %mkrel 1
 
 Name:		%{name}
 Summary:	A GTK+ / Ncurses audio mixer 
@@ -13,18 +13,6 @@ BuildRequires:	gtk+2-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 Source0:	http://www.jpj.net/~trevor/aumix/%{name}-%{version}.tar.bz2
-# mute(1) man page (from debian):
-Source1:	aumix-mute.1.bz2
-Patch1:		aumix-2.8-utf8_vs_gtk2.patch
-Patch2:		aumix-2.8-close-dialogs.patch
-Patch3:		aumix-2.8-nb.patch
-# autoconf 2.5 and later support (from debian):
-Patch4:		aumix-2.8-autoconf.patch
-Patch5:		aumix-2.8-format_not_a_string_literal_and_no_format_arguments.diff
-# rawhide patches:
-Patch102:  aumix-fix-cursor-color-on-exit.patch
-Patch103:  aumix-2.8-fix-changing-level-non-interactively.patch
-Patch104:  aumix-2.8-bug-115869.patch
 URL: 		http://www.jpj.net/~trevor/aumix.html
 Requires:	initscripts >= 4.42
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -46,27 +34,16 @@ interface .
 
 %prep
 %setup -q
-%patch1 -p1 -b .utf8
-%patch2 -p0 -b .dialogs
-%patch3 -p1 -b .nb
-%patch4 -p1 -b .autoconf
-%patch5 -p0
-%patch102 -p0
-%patch103 -p1
-%patch104 -p0
 
 %build
-aclocal
-automake --add-missing
-autoconf
 mkdir build-text
 pushd build-text
-CONFIGURE_TOP=.. %configure --with-alsa --without-gtk1 --without-gtk
+CONFIGURE_TOP=.. %configure2_5x --without-gtk
 %make
 popd
 mkdir build-gui
 pushd build-gui
-CONFIGURE_TOP=.. %configure --with-alsa --without-gtk1
+CONFIGURE_TOP=.. %configure2_5x
 %make
 popd
 
@@ -92,8 +69,6 @@ Type=Application
 StartupNotify=true
 Categories=GTK;Audio;Mixer;
 EOF
-
-bzcat %SOURCE1 > $RPM_BUILD_ROOT%_mandir/man1/mute.1
 
 %find_lang %name
 
