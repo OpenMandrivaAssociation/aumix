@@ -48,17 +48,17 @@ CONFIGURE_TOP=.. %configure2_5x
 popd
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %makeinstall -C build-gui
 
 # install text version
-install -m755 build-text/src/aumix $RPM_BUILD_ROOT%{_bindir}/aumix-text
+install -m755 build-text/src/aumix %{buildroot}%{_bindir}/aumix-text
 
 # menu entry
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
-cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-%{name}.desktop << EOF
+mkdir -p %{buildroot}%{_datadir}/applications
+cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
 [Desktop Entry]
 Name=Aumix
 Comment=Basic volume controller
@@ -83,7 +83,7 @@ EOF
 %endif
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files -f %{name}.lang
 %defattr(-,root,root)
