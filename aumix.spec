@@ -65,12 +65,12 @@ EOF
 %files -f %{name}.lang
 %doc README TODO NEWS ChangeLog
 %{_bindir}/aumix
-%{_bindir/}mute
-%{_bindir/}xaumix
-%{_mandir/}man1/*
-%{_datadir/}applications/*
-%{_datadir/}%{name}
+%{_bindir}/mute
+%{_bindir}/xaumix
+%{_mandir}/man1/*
+%{_datadir}/applications/*
+%{_datadir}/%{name}
 
 %files text
-%_bindir/aumix-text
+%{_bindir}/aumix-text
 
