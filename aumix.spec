@@ -1,7 +1,7 @@
 Summary:	A GTK+ / Ncurses audio mixer
 Name:		aumix
 Version:	2.9.1
-Release:	20
+Release:	21
 License:	GPLv2+
 Group:		Sound
 Source0:	http://www.jpj.net/~trevor/aumix/releases/%{name}-%{version}.tar.bz2
