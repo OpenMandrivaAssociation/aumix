@@ -42,6 +42,8 @@ interface .
 
 %prep
 %setup -q
+cp -f %{_datadir}/libtool/config/* build-aux/
+./bootstrap
 
 %build
 mkdir build-text
