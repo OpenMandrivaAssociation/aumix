@@ -1,7 +1,7 @@
 Summary:	A GTK+ / Ncurses audio mixer
 Name:		aumix
 Version:	2.9.1
-Release:	22
+Release:	23
 License:	GPLv2+
 Group:		Sound
 Source0:	http://www.jpj.net/~trevor/aumix/releases/%{name}-%{version}.tar.bz2
@@ -48,12 +48,12 @@ cp -f %{_datadir}/libtool/config/* build-aux/
 %build
 mkdir build-text
 pushd build-text
-CONFIGURE_TOP=.. %configure2_5x --without-gtk
+CONFIGURE_TOP=.. %configure --without-gtk
 %make
 popd
 mkdir build-gui
 pushd build-gui
-CONFIGURE_TOP=.. %configure2_5x
+CONFIGURE_TOP=.. %configure
 %make
 popd
 
@@ -81,4 +81,3 @@ Categories=GTK;Audio;Mixer;
 EOF
 
 %find_lang %{name}
-
